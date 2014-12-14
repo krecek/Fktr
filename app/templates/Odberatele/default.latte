@@ -1,0 +1,47 @@
+{extends 'base.latte'}
+{block podsekce}Seznam odběratelů{/block}
+{block content}
+&nbsp;
+{control odberateleFiltrform}
+<div class="portlet">
+        <div class="portlet-header fixed">Seznam odběratelů</div>
+	<div class="portlet-content nopadding">
+{foreach $odberatele as $odberatel}
+    {first}
+        <table width='100%' cellpadding="0" cellspacing="0" id="box-table-a">
+            <tr>
+                <th>Id</th>
+                <th>Název</th>
+                <th>Adresa</th>
+                <th>Kontaktní osoba</th>
+                <th>Telefon</th>
+                <th>Mail</th>
+                <th>Akce</th>
+            </tr>
+
+        {/first}
+        <tr>
+            <td>{$odberatel['id']}</td>
+            <td>{$odberatel['nazev']}</td>
+            <td>{$odberatel['ulice']}, {$odberatel['mesto']}, {$odberatel['psc']}</td>
+            <td>{$odberatel['osoba']}</td>
+            <td>{$odberatel['telefon']}</td>
+            <td>{if $odberatel['mail']}<a href='mailto:{$odberatel["mail"]}'>{$odberatel['mail']}</a>{/if}</td>
+            <td><a n:href='Faktury:prehled $odberatel->id'>Faktury</a>
+		<a n:href="edit $odberatel['id']" class="edit_icon"></a>&nbsp;
+		<a n:href="delete $odberatel['id']" class="delete_icon" onclick="if(!confirm('Opravdu odstranit odběratele?')) return false;"></a></td>
+        </tr>   
+        {last}
+        </table>
+    {/last}
+{/foreach}
+	</div>
+    </div>
+    <div class="clear"> </div>
+{if !$odberatele}
+    <div class='error'>
+    Nebyli nalezeni žádní odběratelé odpovídající požadavkům.
+    </div>
+    {/if}
+
+    <a n:href="add" class="button"><span>Nový odběratel</span></a>

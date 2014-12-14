@@ -1,0 +1,77 @@
+{* Latte template *}
+{extends 'base.latte'}
+{block podsekce}Seznam faktur{/block}
+{block content}
+<div>
+    <table class="normal">
+        {if $odberatel->nazev}
+            <tr>
+		<td>Název:</td>
+                <td>{$odberatel->nazev}</td>
+            </tr>
+        {/if}
+        <tr>
+	    <td>Adresa:</td>
+            <td>{$odberatel->ulice}, {$odberatel->psc}&nbsp;&nbsp;&nbsp;{$odberatel->mesto}</td>
+        </tr>
+	{if $odberatel->telefon}
+            <tr>
+		<td>Telefon:</td>
+                <td>{$odberatel->telefon}</td>
+            </tr>
+        {/if}
+	{if $odberatel->mail}
+            <tr>
+		<td>Mail:</td>
+                <td><a href='mailto:{$odberatel->mail}'>{$odberatel->mail}</a></td>
+            </tr>
+        {/if}
+	{if $odberatel->osoba}
+            <tr>
+		<td>Kontaktní osoba:&nbsp;</td>
+                <td>{$odberatel->osoba}</td>
+            </tr>
+        {/if}
+    </table>
+</div>
+
+</table>
+{if $faktury}
+    <div class="portlet">
+        <div class="portlet-header fixed">Seznam faktur</div>
+	<div class="portlet-content nopadding">
+	    {foreach $faktury as $faktura}
+		{first}
+		    <table width="100%" cellpadding="0" cellspacing="0" id="box-table-a">
+			<tr>
+			    <th>Číslo</th>
+			    <th>Odběratel</th>
+			    <th>Datum vystavenní</th>
+			    <th>Splatnost</th>
+			    <th>Zaplaceno</th>
+			    <th>&nbsp;</th>
+			</tr>
+		    {/first}
+		    <tr>
+			<td><a n:href="detail $faktura->id">{$faktura->cislo}</a></td>
+			<td title='{$faktura->ulice}, {$faktura->mesto}'><a n:href='Faktury:prehled odberatel=>$faktura->odberatel'>{$faktura->nazev}</a></td>
+			<td>{$faktura->vytvoreno|date:'j.n.Y'}</td>
+			<td>{$faktura->splatnost|date:'j.n.Y'}</td>
+			<td>{if $faktura->platba}<span class="ok"></span>{/if}{if !$faktura->platba && $faktura->splatnost<$dnes}<span class="warning"></no>{/if}{$faktura->platba|date:'j.n.Y'}</td>
+			<td>
+			    <a n:href="edit $faktura->id" class="edit_icon"></a>&nbsp;
+			    <a n:href="delete $faktura->id" class="delete_icon" onclick="if(!confirm('Opravdu smazat tuto fakturu? Tento krok je nevratný.'))return false;"></a>
+			</td>
+
+		    </tr>
+		    {last}   
+		    </table>
+		{/last}
+	    {/foreach}
+	</div>
+    </div>
+    <div class="clear"> </div>
+{else}
+    Nebyly nalezeny žádné faktury odpovídající požadavkům;
+{/if}
+<a n:href="new $odberatel->id" class="button"><span>Vytvořit novou fakturu</span></a>

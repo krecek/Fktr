@@ -1,0 +1,29 @@
+{* Latte template *}
+{extends 'base.latte'}
+{block podsekce}editace: {$faktura->cislo}{/block}
+{block content}
+&nbsp;
+
+{control upravitFakturuForm}
+
+{form upravitPolozkyForm}  
+    <table width="100%">
+	<tr>
+	    <th width="70%">Text</th>
+	    <th width="10%">Množství</th>
+	    <th width="10%">Cena bez DPH</th>
+	    <th width="10%">DPH (%)</th>
+	</tr>
+	
+	{for $i=1; $i<=$form->pocet_polozek; $i++}
+	    <tr>
+		<td width="70%">{input polozka_$i}</td>
+		<td width="10%">{input mnozstvi_$i}</td>
+		<td width="10%">{input cena_$i}</td>
+		<td width="10%">{input dph_$i}</td>
+	    </tr>
+	{/for}
+	<tr><td colspan="4">{input send}</td></tr>
+	
+    </table>
+	{/form}

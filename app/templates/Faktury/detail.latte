@@ -1,0 +1,93 @@
+{extends 'base.latte'}
+{block podsekce}{$faktura->cislo}{/block}
+{block content}
+<div id="portlets">
+    <div class="column" id="left">
+        <div class="portlet">
+            <div class="portlet-header">Informace o faktuře</div>
+            <div class="portlet-content">
+		<table>
+                    <tr>
+                        <td>Číslo faktury: </td>
+                        <td>{$faktura->cislo}</td>
+                    </tr>
+                    <tr>
+                        <td>Číslo objednávky: </td>
+                        <td>{$faktura->objednavka}</td>
+                    </tr>
+                    <tr>
+                        <td>Vytvořeno: </td>
+                        <td>{$faktura->vytvoreno|date:'j.n.Y'}</td>
+                    </tr>
+                    <tr>
+                        <td>Splatnost: </td>
+                        <td>{$faktura->splatnost|date:'j.n.Y'}</td>
+                    </tr>
+                    {if $faktura->platba}
+                        <tr>
+                            <td>Zaplaceno</td>
+                            <td>{$faktura->platba|date:'j.n.Y'}</td>
+                        </tr>
+                    {/if}
+		    <tr>
+			<td>Razítko</td>
+			<td>{if $faktura->razitko=='A'}<span class='ok' title='ano'></span>{else}<span class='no' title='ne'></span>{/if}</td>
+		    </tr>
+			
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="column" >
+        <div class="portlet">
+            <div class="portlet-header">Odběratel</div>
+            <div class="portlet-content">
+		<table>
+                    {if $odberatel->nazev}
+			<tr>
+			    <td>{$odberatel->nazev}</td>
+			</tr>
+                    {/if}
+                    <tr>
+                        <td>{$odberatel->ulice}, {$odberatel->psc}&nbsp;&nbsp;&nbsp;{$odberatel->mesto}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="portlet">
+        <div class="portlet-header fixed">Položky</div>
+	<div class="portlet-content nopadding">
+	    <table width="100%" cellpadding="0" cellspacing="0" id="box-table-a">
+		<thead>
+		    <tr>
+			<th>popis</th>
+			<th>množství</th>
+			<th>cena/kus</th>
+			<th>dph (%)</th>
+			<th>cena bez dph</th>
+			<th>cena s dph</th>
+		    </tr>
+		</thead>
+		{foreach $polozky as $polozka}
+		    <tr>
+			<td>{$polozka->popis}</td>
+			<td>{$polozka->mnozstvi}</td>
+			<td>{$polozka->cena}</td>
+			<td>{$polozka->dph}</td>
+			<td>{$polozka->cenabezdph}</td>
+			<td>{$polozka->cenasdph}</td>
+		    </tr>
+		{/foreach}
+	    </table>
+	    <br/>
+	    <div>
+		Vytištěna aktuální verze 
+		{if $vytisteno}<span class="ok">{else}<span class="no">{/if}</span>
+		&nbsp;&nbsp;&nbsp;<a n:href="pdf $faktura->id" class="print" title="tisk" alt="tisk"></a>&nbsp;<a n:href="edit $faktura->id" class="edit_icon" title='upravit' alt='upravit'></a>
+	    </div>
+	</div>
+    </div>
+</div>
+<div class="clear"> </div>

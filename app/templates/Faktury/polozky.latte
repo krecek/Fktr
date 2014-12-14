@@ -1,0 +1,40 @@
+{* Latte template *}
+{extends 'base.latte'}
+{block podsekce}Položky faktury {$faktura->cislo}{/block}
+{block content}
+&nbsp;
+<table>
+    <tr>
+	<th>Odběratel:</th>
+	<td>{$odberatel['nazev']}</td>
+    </tr>
+    <tr>
+	<th>Vytvořeno:</th>
+	<td>{$faktura['vytvoreno']|date:'j.n.Y'}</td>
+    </tr>
+    <tr>
+	<th>Zaplaceno:</th>
+	<td>{if $faktura->platba}{$faktura['platba']|date:'j.n.Y'}{/if}</td>
+    </tr>
+</table>
+{form novePolozkyForm}  
+    <table   width="100%">
+	<tr>
+	    <th  width="70%">Text</th>
+	    <th width="10%">Množství</th>
+	    <th width="10%">Cena bez DPH</th>
+	    <th width="10%">DPH (%)</th>
+	</tr>
+	
+	{for $i=1; $i<=$form->pocet_polozek; $i++}
+	    <tr>
+		<td width="70%">{input polozka_$i}</td>
+		<td width="10%">{input mnozstvi_$i}</td>
+		<td width="10%">{input cena_$i}</td>
+		<td width="10%">{input dph_$i}</td>
+	    </tr>
+	{/for}
+	<tr><td colspan="4">{input send}</td></tr>
+	
+    </table>
+	{/form}

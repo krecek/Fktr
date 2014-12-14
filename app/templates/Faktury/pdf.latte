@@ -1,0 +1,131 @@
+<table style='witdh:660px; border-collapse:collapse; border-bottom:1px solid black;'>
+    <tr>
+	<td width='660px' style='border-bottom:1px solid black; text-align:left; font-size:17px;'>
+	    <b>Faktura - daňový doklad</b>
+	</td>
+    </tr>
+</table>
+<table style='border-collapse:collapse; margin-top:15px;' cellspacing='0px' cellpadding='0px'>
+       <tr>
+           <td style='border:1px solid black; border-left: 1px solid black; width:330px'  >
+               <table style='border-collapse:collapse; width:100%' >
+                   <tr>
+                       <td style='width:330px'>
+                           <table style='border-collapse:collapse; width:330'>
+                                <tr><td><b>Dodavatel:</b></td></tr>
+                                <tr><td>{$nazev}</td></tr>
+                                <tr><td>{$ulice}</td></tr>
+                               <tr><td>{$psc}&nbsp;&nbsp;{$mesto}</td></tr>
+                               <tr><td></td></tr>
+                            </table>
+                            <table style='margin-top:25px; width:330px'>
+                               <tr><td>e-mail:</td><td>{$email}</td></tr>
+                               <tr><td>tel:</td><td>{$telefon}</td></tr>
+                            </table>
+                            <table style='margin-top:15px; width:330px'>
+			       <tr><td>konces. listina č. 310003-47851-00<br/>
+					vydal živnostenský odbor městské<br>
+					části Praha 3 dne 13.6.2001 </td></tr>
+                            </table>
+                       </td>
+                    </tr>
+               </table>
+               <table style='border-top:1px solid black; width:330px; border-collapse:collapse;'>
+                   <tr><td><b>IČ:</b></td><td>{$ic}</td></tr>
+                   <tr><td><b>DIČ:</b></td><td>{$dic}</td></tr>
+                   <tr><td><b>Č. účtu:</b></td><td>{$cislo_uctu}</td></tr>
+                   <tr><td><b>Banka:</b></td><td>{$banka}</td></tr>
+               </table>
+            </td>
+            <td style='border:1px solid black; border-left: 1px solid black; width:330px'>
+                <table width='330px' style='border-collapse:collapse;'>
+                   <tr>
+                        <td>
+                            <table style='border-bottom:1px solid black; width:330px'>
+                                <tr>
+				    <td><b>č. faktury (variabilní symbol):</b></td>
+				    <td width='80px'><b>{$faktura['cislo']}</b></td>
+				</tr>
+                            </table> 
+				{if $faktura->objednavka}
+                            <table style='border-bottom:1px solid black; width:330px'>
+                                <tr>
+				    <td>č. objednávky:</td>
+				    <td width='110px'><b>{$faktura['objednavka']}</b></td>
+				</tr>
+                            </table>  
+				{/if}
+                            <table  style='border-bottom:1px solid black; width:330px'>
+                                <tr><td>Datum splatnosti</td><td width='110px'>{$faktura['splatnost']|date:'j.n.Y'}</td></tr>
+                                <tr><td>Datum vystavení dokladu</td><td width='110px'>{$faktura['vytvoreno']|date:'j.n.Y'}</td></tr>
+                                <tr><td>Datum usku. zdanitel. plnění</td><td width='110px'>{$faktura['vytvoreno']|date:'j.n.Y'}</td></tr>
+                            </table>
+                            <table style='border-bottom:1px solid black; width:330px'>
+                                <tr><td>Forma úhrady:</td><td width='$tretina'>{$faktura['zpusob_platby']}</td></tr>
+                                <tr><td>Variabilní symbol:</td><td width='110px'>{$faktura['cislo']}</td></tr>
+                               <tr><td>Konstantní symbol:</td><td width='110px'>0308</td></tr>
+                            </table>
+                            <table style='width:330px'>
+                                <tr><td><b>Odběratel:</b></td></tr>
+                                <tr><td>{$odberatel['nazev']}</td></tr>
+                               <tr><td>{$odberatel['ulice']}</td></tr>
+                                <tr><td>{$odberatel['psc']}&nbsp;&nbsp;{$odberatel['mesto']}</td></tr>
+                            </table>
+                           <table style='margin-top:0px; width:330px'>
+                                <tr><td>{if $odberatel['ico']}IČO: {$odberatel['ico']}{/if}</td></tr>
+                                <tr><td>{if $odberatel['dic']}DIČ: {$odberatel['dic']}{/if}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+<table style='width:660px; margin-top:25px; border-collapse:collapse;'> 
+        <tr>
+            <td style='width: 330px; border-bottom:1.5px solid black;' valign='top' align='left'><b>Označení dodávky</b></td>
+            <td style='width: 330px; border-bottom:1.5px solid black;' valign='top' align='left'><b>množství</b></td>
+            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Cena v Kč<br>bez DPH</b></td>
+            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Sazba DPH<br>v %</b></td>
+            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>DPH<br>v Kč</b></td>
+            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Kč celkem<br>včetně DPH</b></td>
+        </tr>
+{if count($faktura['polozky'])}
+{var $sum_bez = 0}
+{var $sum_s = 0}
+{foreach $faktura['polozky'] as $polozka}
+{var $polozka_dph=($polozka['cena']*0.01*$polozka['dph'])}
+{var $polozka_dph_celkem +=($polozka_dph*$polozka['mnozstvi'])}
+{var $celkem = ($polozka['cena'] + $polozka['cena']*0.01*$polozka['dph'])*$polozka['mnozstvi']}
+{$sum_bez +=$polozka['cena']*$polozka['mnozstvi']}
+{$sum_s +=$celkem}
+         <tr>
+           <td>{$polozka['popis']}</td>
+           <td>{$polozka['mnozstvi']}</td>
+            <td align='right'>{$polozka['cena']|number:2:',':' '}</td>
+            <td align='center'>{$polozka['dph']}</td>
+            <td align='right'>{$polozka_dph|number:2:',':' '}</td>
+            <td align='right'>{$celkem|number:2:',':' '}</td>
+        </tr>
+{/foreach}
+{/if}
+    <tr>
+        <td style='border-top:1.5px solid black;'><b>Celkem</b></td>
+	<td style='border-top:1.5px solid black;' align='right'></td>
+	<td style='border-top:1.5px solid black;' align='right'>{$sum_bez|number:2:',':' '}</td>
+	<td style='border-top:1.5px solid black;' align='right'></td>
+	<td style='border-top:1.5px solid black;' align='right'>{round($polozka_dph_celkem)|number:2:',':' '}</td>
+	<td style='border-top:1.5px solid black;' align='right'>{round($sum_s)|number:2:',':' '}</td>
+    </tr>
+    </table>
+    {if $faktura->razitko=='N'}
+    <table width='200px' style='margin-top:50px; margin-left:50px;'>
+        <tr><td style='width:200px;' align='center'></td></tr>
+        <tr><td style='width:200px' align='center'><b>razítko a podpis</b></td></tr>
+    </table>
+    {else}
+	<table width='200px' style='margin-top:50px; margin-left:50px;'>
+        <tr><td style='width:200px;' align='center'><img src='{$basePath}/images/razitko.png' width='250px'></td></tr>
+        <tr><td style='width:200px' align='center'><b>razítko a podpis</b></td></tr>
+    </table>
+	{/if}

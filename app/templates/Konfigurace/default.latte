@@ -1,0 +1,23 @@
+{* Latte template *}
+{extends 'base.latte'}
+{block podsekce}Přehled nastavení{/block}
+{block content}
+
+{foreach $polozky as $polozka}
+    {first}
+	<table id="box-table-a">
+	    <tr>
+		<th>Popis</th>
+		<th>Hodnota</th>
+		<th></th>
+	    </tr>
+   {/first}
+   <tr>
+       <td>{$polozka['popis']}</td>
+       <td>{$polozka['hodnota']}</td>
+       <td><a n:href="edit $polozka['id']" class='edit_icon' title='upravit' alt='upravit'></a></td>
+   </tr>
+   {last}
+	</table>
+    {/last}
+{/foreach}

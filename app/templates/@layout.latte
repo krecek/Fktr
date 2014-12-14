@@ -1,0 +1,87 @@
+{**
+ * My Application layout template.
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+*}
+
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+
+	<title>{block title|striptags|upper}Seňko DDD - Faktury{/block}</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
+	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="{$basePath}/css/960.css" />
+        <link rel="stylesheet" type="text/css" href="{$basePath}/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="{$basePath}/css/text.css" />
+        <link rel="stylesheet" type="text/css" href="{$basePath}/css/green.css" />
+ 
+        <link type="text/css" href="{$basePath}/css/smoothness/ui.css" rel="stylesheet" />  
+	<link  type="text/css" href="{$basePath}/css/jquery-ui.css" rel="stylesheet">
+
+        <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/jquery-ui.js"></script>
+
+
+	{block head}{/block}
+    </head>
+
+    <body>
+	<script> document.documentElement.className += ' js'</script>
+	<div class="container_16" id="wrapper">	
+	    <div class="grid_8" id="logo">Seňko DDD</div>
+	    <div class="grid_16" id="header">
+		<!-- MENU START -->
+		<div id="menu">
+		    <ul class="group" id="menu_group_main">
+			<li class="item first" id="one"><a n:href='odberatele:' class="main{if ($mainItem=='odberatele')} current{/if}"><span class="outer"><span class="inner users">Odběratelé</span></span></a></li>
+			<li class="item middle" id="two"><a n:href='faktury:' class="main{if ($mainItem=='faktury')} current{/if}"><span class="outer"><span class="inner content">Faktury</span></span></a></li>
+			<li class="item last" id="eight"><a n:href="konfigurace:" class="main{if ($mainItem=='konfigurace')} current{/if}"><span class="outer"><span class="inner settings">Konfigurace</span></span></a></li>        
+		    </ul>
+		</div>{dump $mainItem}
+		<!-- MENU END -->
+	    </div>
+	    <div class="grid_16">
+		<!-- TABS START -->
+		<div id="tabs">
+		    <div class="container">
+			<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+		    </div>
+		</div>
+		<!-- TABS END -->    
+	    </div>
+	    <div class="grid_16" id="content">
+		<div class="grid_9">
+		    <h1 class="{block ikona}content_edit{/block}">{block sekce}{/block} - {block podsekce}{/block}</h1>
+		</div>
+		<div class="grid_6" id="eventbox"><a n:href="Napoveda:" class="inline_tip">{block tip}Nápověda{/block}</a></div>
+		<div class="clear">
+		</div>
+		<div class="grid_15" id="textcontent">
+		    {include #content}
+		</div>
+		<div class="clear">
+		</div>
+		{block scripts}
+		<script src="{$basePath}/js/jquery.js"></script>
+		<script src="{$basePath}/js/netteForms.js"></script>
+		<script src="{$basePath}/js/main.js"></script>
+
+		{/block}
+	    </div>
+	    <div class="clear">
+	    </div>
+	</div>
+	<div class="clear">
+        </div>
+	<div class="container_16" id="footer">
+	    Designed by Bobulka</div>
+    </body>
+</html>
