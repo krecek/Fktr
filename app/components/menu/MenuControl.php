@@ -8,6 +8,7 @@ class MenuControl extends Nette\Application\UI\Control
 	parent::__construct();
 	$this->mainItem = $mainItem;
 	$this->template = 'Menu.latte';
+        dd('');
     }
     
 }
