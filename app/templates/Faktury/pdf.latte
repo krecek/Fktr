@@ -84,9 +84,10 @@
 <table style='width:660px; margin-top:25px; border-collapse:collapse;'> 
         <tr>
             <td style='width: 330px; border-bottom:1.5px solid black;' valign='top' align='left'><b>Označení dodávky</b></td>
-            <td style='width: 330px; border-bottom:1.5px solid black;' valign='top' align='left'><b>množství</b></td>
-            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Cena v Kč<br>bez DPH</b></td>
-            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Sazba DPH<br>v %</b></td>
+            <td style='width: 150px; border-bottom:1.5px solid black;' valign='top' align='left'><b>množství</b></td>
+            <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Cena/kus v Kč<br>bez DPH</b></td>
+            <td style='width: 140px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Cena celkem v Kč<br>bez DPH</b></td>
+            <td style='width: 50.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Sazba DPH<br>v %</b></td>
             <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>DPH<br>v Kč</b></td>
             <td style='width: 82.5px; border-bottom:1.5px solid black;' valign='top' align='center'><b>Kč celkem<br>včetně DPH</b></td>
         </tr>
@@ -103,6 +104,7 @@
            <td>{$polozka['popis']}</td>
            <td>{$polozka['mnozstvi']}</td>
             <td align='right'>{$polozka['cena']|number:2:',':' '}</td>
+            <td align='right'>{$polozka['cena']*$polozka['mnozstvi']|number:2:',':' '}</td>
             <td align='center'>{$polozka['dph']}</td>
             <td align='right'>{$polozka_dph|number:2:',':' '}</td>
             <td align='right'>{$celkem|number:2:',':' '}</td>
@@ -111,6 +113,7 @@
 {/if}
     <tr>
         <td style='border-top:1.5px solid black;'><b>Celkem</b></td>
+	<td style='border-top:1.5px solid black;' align='right'></td>
 	<td style='border-top:1.5px solid black;' align='right'></td>
 	<td style='border-top:1.5px solid black;' align='right'>{$sum_bez|number:2:',':' '}</td>
 	<td style='border-top:1.5px solid black;' align='right'></td>
