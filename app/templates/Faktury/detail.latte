@@ -85,7 +85,9 @@
 	    <div>
 		Vytištěna aktuální verze 
 		{if $vytisteno}<span class="ok">{else}<span class="no">{/if}</span>
-		&nbsp;&nbsp;&nbsp;<a n:href="pdf $faktura->id" class="print" title="tisk" alt="tisk"></a>&nbsp;<a n:href="edit $faktura->id" class="edit_icon" title='upravit' alt='upravit'></a>
+		&nbsp;&nbsp;&nbsp;<a n:href="pdf $faktura->id" class="print" title="tisk" alt="tisk"></a>&nbsp;
+                <a n:href="edit $faktura->id" class="edit_icon" title='upravit' alt='upravit'></a>
+                &nbsp;<a n:href="copy $faktura->id" titlw="duplikovat" alt="duplikovat">duplikovat</a>
 	    </div>
 	</div>
     </div>
